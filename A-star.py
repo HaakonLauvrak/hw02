@@ -50,17 +50,18 @@ class Node:
     
 
 
-def find_available_moves(map, current_position):
+def find_available_moves(map, node):
     """Returns a list of available moves from the current position"""
     available_moves = []
+    current_position = node.get_position()
     up_pos = (current_position[0]+1, current_position[1])
     down_pos = (current_position[0]-1, current_position[1])
     left_pos = (current_position[0], current_position[1]-1)
     right_pos = (current_position[0], current_position[1]+1)
-    possible_moves = [up_pos, down_pos, left_pos, right_pos]
-    for move in possible_moves:
-        if map.get_cell_value(move) == 1:
-            available_moves.append(move)
+    possible_moves = {"up": up_pos, "down": down_pos, "left": left_pos, "right": right_pos}
+    for key, value in possible_moves.items():
+        if map.get_cell_value(value) == 1:
+            available_moves.append((value, node, key, node.get_cost() + 1 + find_air_distance(value, map.get_goal_pos())))
     return available_moves
 
 
@@ -82,7 +83,7 @@ def a_star_search(function, map):
         node.set_cost(function(node))
         if node.get_position() == map.get_goal_pos():
             return node
-        for move in find_available_moves(map, node.get_position()):
+        for move in find_available_moves(map, node):
             if move not in reached or node.get_cost() < reached[move].get_cost():
                 reached[move] = node
                 frontier.append(move)
