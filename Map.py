@@ -343,7 +343,8 @@ class Map_Obj():
             ' ; ': (36, 36, 36),   # blackish
             ' S ': (255, 0, 255),  # magenta
             ' G ': (0, 128, 255),   # cyan
-            ' P ': (0, 255, 0)   # green
+            ' P ': (0, 255, 0),   # green
+            ' Path ': (255, 255, 0)  # yellow
         }
         # Go through image and set pixel color for every position
         for y in range(height):
@@ -366,5 +367,10 @@ class Map_Obj():
         self.int_map[pos[0]][pos[1]] = 1
         self.str_map[pos[0]][pos[1]] = '.'
         self.str_map[pos[0], pos[1]] = ' P '
+
+    def set_path(self, pos):
+        self.int_map[pos[0]][pos[1]] = 1
+        self.str_map[pos[0]][pos[1]] = '.'
+        self.str_map[pos[0], pos[1]] = ' Path '
     
 
